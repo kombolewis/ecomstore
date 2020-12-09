@@ -17,14 +17,14 @@ class DB {
 
   public static function getInstance() {
     if(!isset(self::$_instance)){
-      self::$_instance = new DB();
+      self::$_instance = new DB(); // the instance is an object of the entire class
     }
     return self::$_instance;
   }
 
-  public function query($sql, $params = []){
+  public function query($sql, $params = []) {
     $this->_error = false;
-
+    // $this->_pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
     if($this->_query = $this->_pdo->prepare($sql)){
       $x = 1;
       if(count($params)){
@@ -60,7 +60,6 @@ class DB {
     $valueString = rtrim($valueString, ',');
 
     $sql = "INSERT INTO {$table} ({$fieldString}) VALUES ({$valueString})";
-    
     if(!$this->query($sql,$values)->error()){
       return true;
     }
@@ -85,7 +84,7 @@ class DB {
 
   }
   
-  public function delete($table, $id){
+  public function delete($table, $id) {
     $sql = "DELETE FROM {$table} where id = {$id}";
     if(!$this->query($sql)->error()){
       return true;
@@ -175,7 +174,7 @@ class DB {
     return $this->_count;
   }
 
-  public function lastID(){
+  public function lastID() {
     return $this->_lastInsertID;
   }
 

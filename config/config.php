@@ -10,4 +10,8 @@ define('DEFAULT_CONTROLLER', 'Home'); //default controller if not set in url
 define('DEFAULT_LAYOUT', 'default'); // if no layout is defined in layout
 
 define('SITE_TITLE', 'Dash MVC Framework'); //used if no site title is defined
-define('PROOT', '');
+define('PROOT', '/');
+
+define('CURRENT_USER_SESSION_NAME', 'fwvorewwefohwearflmdsfgv'); //session name for logged in user
+define('REMEMBER_ME_COOKIE_NAME', 'eolwiejfqmvrfergkdfgickds'); //cookie name for logged in user
+define('REMEMBER_ME_COOKIE_EXPIRY', 604800); 

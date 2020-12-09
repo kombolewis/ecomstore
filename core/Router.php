@@ -4,13 +4,14 @@ class Router {
 
   public static function route($url){
 
+
     //controller
-    $controller = (isset($url[0]) && url[0] != ''  ) ? ucwords($url[0]) : DEFAULT_CONTROLLER;
+    $controller = (isset($url[0]) && $url[0] != ''  ) ? ucwords($url[0]) : DEFAULT_CONTROLLER;
     $controllerName = $controller;
     array_shift($url);
 
     //action
-    $action = (isset($url[0]) && url[0] != ''  ) ? $url[0] . 'Action' : 'indexAction';
+    $action = (isset($url[0]) && $url[0] != ''  ) ? $url[0] . 'Action' : 'indexAction';
     $actionName = $action;
     array_shift($url);
 
@@ -29,6 +30,22 @@ class Router {
 
 
 
+  }
+
+  public static function redirect($location) {
+    
+    if(!headers_sent()){
+      header('Location: '.PROOT.$location);
+    } else {
+      echo '<script type="text/javascript">';
+      echo 'window.location.href = "'.PROOT.$location.'";';
+      echo '<script>';
+      echo '<noscript>';
+      echo '<meta http-equiv="refresh" content="0;url='.$location.'"/>';
+      echo '</noscript>';exit;
+
+    }
+  
   }
 
 }
