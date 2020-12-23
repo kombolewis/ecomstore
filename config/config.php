@@ -14,4 +14,4 @@ define('PROOT', '/');
 
 define('CURRENT_USER_SESSION_NAME', 'fwvorewwefohwearflmdsfgv'); //session name for logged in user
 define('REMEMBER_ME_COOKIE_NAME', 'eolwiejfqmvrfergkdfgickds'); //cookie name for logged in user
-define('REMEMBER_ME_COOKIE_EXPIRY', 604800); 
+define('REMEMBER_ME_COOKIE_EXPIRY', 2592000); 

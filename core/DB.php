@@ -8,9 +8,11 @@ class DB {
   private function __construct(){
     try {
       $this->_pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
+      // $this->_pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+      // $this->_pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      // $this->_pdo->setAttribute( PDO::ATTR_EMULATE_PREPARES, false);
     } catch(PDOException $e) {
       die($e->getMessage());
-
     }
 
   }
@@ -24,7 +26,6 @@ class DB {
 
   public function query($sql, $params = []) {
     $this->_error = false;
-    // $this->_pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
     if($this->_query = $this->_pdo->prepare($sql)){
       $x = 1;
       if(count($params)){

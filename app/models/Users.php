@@ -45,4 +45,46 @@ class Users extends Model {
 
     }
   }
+
+  public static function currentLoggedInUser(){
+    if(!isset(self::$currentLoggedInUser) && Session::exists(CURRENT_USER_SESSION_NAME)){
+      $u = new Users((int)Session::get(CURRENT_USER_SESSION_NAME));
+      self::$currentLoggedInUser = $u;
+    } 
+    return self::$currentLoggedInUser;
+
+  }
+
+  public function logout() {
+    $user_agent = Session::uagent_no_version();
+    $this->_db->query("DELETE FROM user_sessions where user_id = ? AND user_agent = ?",[$this->id, $user_agent]);
+    Session::delete(CURRENT_USER_SESSION_NAME);
+    if(Cookie::exists(REMEMBER_ME_COOKIE_NAME)) {
+      Cookie::delete(REMEMBER_ME_COOKIE_NAME);
+    }
+    self::$currentLoggedInUser = null;
+    return true;
+  }
+
+  public static function loginUserFromCookie() {
+    $user_session_model =  new UserSessions();
+    $user_session = $user_session_model->findFirst([
+      'conditions' => "user_agent = ? AND session = ? ",
+      'bind' => [Session::uagent_no_version(), Cookie::get(REMEMBER_ME_COOKIE_NAME)]
+    ]);
+
+    if($user_session->user_id != '') {
+      $user =  new self((int)$user_session->user_id);
+    }
+    $user->login();
+    return $user;
+  }
+
+  public function registerNewUser($params) {
+    $this->assign($params);
+    $this->deleted = 0;
+    $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+    $this->save();
+
+  }
 }
