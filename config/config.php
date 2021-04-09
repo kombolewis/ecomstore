@@ -11,7 +11,12 @@ define('DEFAULT_LAYOUT', 'default'); // if no layout is defined in layout
 
 define('SITE_TITLE', 'Dash MVC Framework'); //used if no site title is defined
 define('PROOT', '/');
+define('MENU_BRAND', 'Dash');
 
 define('CURRENT_USER_SESSION_NAME', 'fwvorewwefohwearflmdsfgv'); //session name for logged in user
 define('REMEMBER_ME_COOKIE_NAME', 'eolwiejfqmvrfergkdfgickds'); //cookie name for logged in user
 define('REMEMBER_ME_COOKIE_EXPIRY', 2592000); 
+
+define('ACCESS_RESTRICTED', 'Restricted'); //controller name for restricted redirect
+
+

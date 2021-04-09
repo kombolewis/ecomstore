@@ -1,4 +1,5 @@
 <?php
+namespace Core;
 
 class View {
   protected $_head, $_body, $_siteTitle=SITE_TITLE, $outputBuffer, $_layout = DEFAULT_LAYOUT;

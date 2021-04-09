@@ -1,7 +1,6 @@
 <?php
-
+namespace Core;
 class Application {
-
   function __construct() {
     $this->_set_reporting();
     $this->_unregister_globals();

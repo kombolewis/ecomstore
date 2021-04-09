@@ -1,5 +1,5 @@
 <?php
-
+namespace Core;
 class Cookie {
 
   public static function set($name, $value, $expiry) {

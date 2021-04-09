@@ -1,46 +1,45 @@
 <?php 
+namespace Core;
 
 
 class Model {
   
-  protected $_db, $_table, $_modelName, $_softDelete = false, $_columnNames = [];
+  protected $_db, $_table, $_modelName, $_softDelete = false, $_validationErrors = [], $_validates=true;
   public $id;
 
   public function __construct($table) {
     $this->_db = DB::getInstance();
     $this->_table = $table;
-    $this->_setTableColumns();
     $this->_modelName = str_replace(' ', '', ucwords(str_replace('_', ' ', $this->_table)));
   }
 
-  protected function _setTableColumns() {
-    $columns = $this->get_columns();
-    foreach($columns as $column) {
-      $columnName = $column->Field;
-      $this->_columnNames[]  = $column->Field;
-      $this->{$columnName} = null;
 
+  protected function _softDeleteParams($params) {
+    if($this->_softDelete) {
+      if(array_key_exists('conditions', $params)) {
+        if(is_array($params['conditions'])) {
+          $params['conditions'][] = 'deleted != 1';
+        } else {
+          $params['conditions'] .= 'AND deleted != 1';
+        }
+
+      } else {
+        $params['conditions'] = 'deleted != 1';
+      }
     }
+    return $params;
   }
 
   public function find($params = []) {
-    $results = [];
-    $resultsQuery = $this->_db->find($this->_table, $params);
-    foreach($resultsQuery as $result) {
-      $obj = new $this->_modelName($this->_table);
-      $obj->populateObjData($result);
-      $results[] = $obj;
-    }
-    return $results;
+    $params = $this->_softDeleteParams($params);
+    $resultsQuery = $this->_db->find($this->_table, $params,get_class($this));
+    if(!$resultsQuery) return [];
+    return $resultsQuery;
   }
 
   public function findFirst($params = []) {
-    $resultQuery = $this->_db->findFirst($this->_table, $params);
-    $result = new $this->_modelName($this->_table);
-    if($resultQuery) {
-      $result->populateObjData($resultQuery);
-    }
-    return $result;
+    $params = $this->_softDeleteParams($params);
+    return $this->_db->findFirst($this->_table, $params, get_class($this));
   }
 
   public function findById($id) {
@@ -48,16 +47,24 @@ class Model {
   }
 
   public function save() {
-    $fields = [];
-    foreach($this->_columnNames as $column) {
-      $fields[$column] = $this->$column;
-    }
-    //determine whether to update or insert
-    if(property_exists($this, 'id') && $this->id  != '') {
-      return $this->update($this->id, $fields);
-    }else{
-      return $this->insert($fields);
-    }
+    $this->validator();
+    if($this->_validates){
+      $this->beforeSave();
+      $fields = H::getObjectProperties($this);
+
+      //determine whether to update or insert
+      
+      if(property_exists($this, 'id') && $this->id  != '') {
+        $save = $this->update($this->id, $fields);
+        $this->afterSave();
+        return $save;
+      }else{
+        $save = $this->insert($fields);
+        $this->afterSave();
+        return $save;
+      }
+    } 
+    return false;
   }
 
   public function insert($fields) {
@@ -89,8 +96,8 @@ class Model {
 
   public function data() {
     $data = new stdClass();
-    foreach($this->_columnNames as $column) {
-      $data->column = $this->column;
+    foreach(H::getObjectProperties($this) as $column => $value) {
+      $data->$column = $value;
     }
     return $data;
   }
@@ -98,8 +105,8 @@ class Model {
   public function assign($params) {
     if(!empty($params)) {
       foreach($params as $key => $val) {
-        if(in_array($key, $this->_columnNames)) {
-          $this->$key = sanitize($val);
+        if(property_exists($this, $key)) {
+          $this->$key = $val;
         }
       }
       return true;
@@ -117,5 +124,34 @@ class Model {
     return $this->_db->get_columns($this->_table);
   }
 
+  public function runValidation($validator) {
+    $key = $validator->field;
+    if(!$validator->success){
+      $this->_validates = false;
+      $this->_validationErrors[$key] = $validator->msg;
 
+    }
+  }
+
+  public function getErrorMessages(){
+    return $this->_validationErrors;
+  }
+
+  public function validationPassed() {
+    return $this->_validates;
+  }
+
+
+  public function addErrorMessage($field,$msg) {
+    $this->_validates = false;
+    $this->_validationErrors[$field] = $msg;
+  }
+
+  public function validator(){}
+  public function beforeSave(){}
+  public function afterSave(){}
+
+  public function isNew() {
+    return (property_exists($this, 'id') && !empty($this->id)) ? true : false;
+  }
 }

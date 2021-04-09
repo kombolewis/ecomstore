@@ -1,16 +1,35 @@
 <?php
-
+namespace Core;
+use Core\{FH,Router};
 class Input {
-  public static function sanitize($dirty) {
-    return htmlentities($dirty, ENT_QUOTES, 'utf-8');
 
+  public function isPost(){
+    return $this->getRequestMethod() === 'POST';
+  }
+  public function isPut(){
+    return $this->getRequestMethod() === 'PUT';
+  }
+  public function isGet(){
+    return $this->getRequestMethod() === 'GET';
   }
 
-  public static function get($input) {
-    if(isset($_POST[$input])) {
-      return self::sanitize($_POST[$input]);
-    }else if(isset($_GET[$input])) {
-      return self::sanitize($_GET[$input]);
+
+  public function getRequestMethod() {
+    return strtoupper($_SERVER['REQUEST_METHOD']);
+  }
+  public static function get($input = false) {
+    if(!$input) {
+      $data = [];
+      foreach($_REQUEST as $field => $value) {
+        $data[$field] = $value;
+      }
+      return $data;
     }
+    return FH::sanitize($_REQUEST[$input]);
+  }
+
+  public function csrfCheck(){
+    if(!FH::checkToken($this->get('csrf_token'))) Router::redirect('restricted/badToken');
+    return true;
   }
 }
