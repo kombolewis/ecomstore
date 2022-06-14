@@ -1,10 +1,10 @@
 <?php
 define('DEBUG', true);
 
-define('DB_NAME', 'ecomstore'); //database name
-define('DB_USER', 'kombo'); //database user
-define('DB_PASSWORD', '123456'); //database password
-define('DB_HOST', '127.0.0.1'); //database host
+define('DB_NAME', 'heroku_c3509ec72096fef'); //database name
+define('DB_USER', 'b289501efd93ef'); //database user
+define('DB_PASSWORD', 'ecfbbe7a'); //database password
+define('DB_HOST', 'eu-cdbr-west-02.cleardb.net'); //database host
 
 define('DEFAULT_LAYOUT', 'default'); // if no layout is defined in layout
 
@@ -23,3 +23,5 @@ define('ACCESS_RESTRICTED', 'Restricted'); //controller name for restricted redi
 
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: X-Requested-With");
+
+// mysql://b289501efd93ef:ecfbbe7a@eu-cdbr-west-02.cleardb.net/heroku_c3509ec72096fef?reconnect=true
