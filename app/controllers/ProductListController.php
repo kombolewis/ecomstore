@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use Core\H;
 use Closure;
 use Core\Controller;
 use App\Models\Product;
