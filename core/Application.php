@@ -1,36 +1,66 @@
 <?php
+
+declare(strict_types =1);
+
 namespace Core;
-class Application {
-  function __construct() {
-    $this->_set_reporting();
-    $this->_unregister_globals();
+
+use Core\{Router,Request};
+
+
+class Application
+{
+  public static $app;
+  /**
+   * @var Router
+   */
+  public Router $router;
+
+  /**
+   * @var Request
+   */
+  public Request $request;
+
+  /**
+   * the view instance
+   *
+   * @var [type]
+   */
+  public  $view;
+
+  /**
+   * main class constructor
+   */
+  public function __construct() {
+    $this->request = new Request();
+    $this->view = new View();
+    $this->router = new Router($this->request);
+    self::$app = $this;
+    $this->set_reporting();
   }
 
-  private function _set_reporting(){
+
+
+  /**
+   * return the server response to client
+   *
+   * @return void
+   */
+  public function run() {
+
+    echo $this->router->resolve();
+
+  }
+
+  private function set_reporting(){
     if(DEBUG){
       error_reporting(E_ALL);
-      ini_set('display_errors', 1);
+      ini_set('display_errors', '1');
     } else {
       error_reporting(0);
-      ini_set('display_errors', 0);
-      ini_set('log_errors', 1);
+      ini_set('display_errors', '0');
+      ini_set('log_errors', '1');
       ini_set('error_log', ROOT . DS . 'tmp' . DS . 'logs' . DS . 'errors.log');
       
-    }
-
-  }
-
-    //only for security
-  private function _unregister_globals(){
-    if(ini_get('register_globals')) {
-      $globalsArr = ['_SESSION', '_COOKIE', '_POST', '_GET', '_REQUEST', '_SERVER', '_ENV', '_FILES'];
-      foreach($globalsArr as $g){
-        foreach($GLOBALS[$g] as $k => $v){
-          if($GLOBALS[$k] === $v) {
-            unset($GLOBALS[$k]);
-          }
-        }
-      }
     }
 
   }

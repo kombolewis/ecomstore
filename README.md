@@ -1,3 +1,3 @@
-# dash
+# ecomstore
 
-<p> Lightweight PHP framework to quickly scaffold projects <p>
+<p> Basic Ecom Shop<p>

@@ -1,19 +1,18 @@
 <?php 
 namespace Core;
 
-use Core\Application;
 
-class Controller extends Application {
+class Controller {
   protected $_controller, $_action;
-  public $view, $request;
+  public $view;
+  private $app;
 
 
   function __construct($controller, $action){
-    parent::__construct();
     $this->_controller = $controller;
     $this->_action = $action;
     $this->view = new View();
-    $this->request =  new Input;
+    $this->app = Application::$app;
   }
 
   protected function load_model($model) {
@@ -29,5 +28,22 @@ class Controller extends Application {
     http_response_code(200);
     echo \json_encode($resp);
     exit;
+  }
+
+  public  function render($view, $params=[]) {
+    $this->view->render($view, $params);
+  }
+
+
+  public function get(string $input = null) {
+    return $this->app->request->get($input);
+  }
+
+  public function redirect($path) {
+    $this->app->router->redirect($path);
+  }
+
+  public function csrfCheck() {
+    $this->app->request->csrfCheck();
   }
 }

@@ -8,12 +8,12 @@ class RestrictedController extends Controller {
     parent::__construct($controller, $action);
   }
 
-  public function indexAction(){
-    $this->view->render('restricted/index');
+  public function index(){
+    $this->render('restricted/index');
   }
 
-  public function badTokenAction() {
-    $this->view->render('restricted/badToken');
+  public function badToken() {
+    $this->render('restricted/badToken');
   }
 
 }

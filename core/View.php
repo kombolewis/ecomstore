@@ -8,13 +8,34 @@ class View {
 
   }
 
-  public function render($viewName) {
+  public function render($viewName, $params) {
+    if($params) {
+      foreach($params as $key => $value){
+        $$key = $value;
+      }
+    }
     $viewAry = explode('/', $viewName);
     $viewString = implode(DS, $viewAry);
     if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $viewString . '.php')){
       include(ROOT . DS . 'app' . DS . 'views' . DS . $viewString . '.php');
       include(ROOT . DS . 'app' . DS . 'views' . DS . 'layouts' . DS . $this->_layout . '.php');
       
+    }else{
+      die('The view \"' .$viewName. '\" does not exist');
+    }
+
+  }
+
+  public function renderPartial($viewName, $params = []) {
+    if($params) {
+      foreach($params as $key => $value){
+        $$key = $value;
+      }
+    }
+    $viewAry = explode('/', $viewName);
+    $viewString = implode(DS, $viewAry);
+    if(file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $viewString . '.php')){
+      include(ROOT . DS . 'app' . DS . 'views' . DS . $viewString . '.php');
     }else{
       die('The view \"' .$viewName. '\" does not exist');
     }
