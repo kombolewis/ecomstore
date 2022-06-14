@@ -57,12 +57,15 @@ class Router {
   public function resolve() {
     $path = $this->request->getPath();
     $method = $this->request->getMethod();
+    return $this->resolveHelper($path, $method);
+  }
+
+  private function resolveHelper($path, $method='get') {
     $callback = $this->routes[$method][$path] ?? false;
     if(!$callback)  return 'NOT FOUND';
     //controller
     $controller =  ucwords($callback[0]); 
     array_shift($callback);
-
     //action
     $action = $callback[0];
 
@@ -71,37 +74,18 @@ class Router {
     } else {
       die('That method '.$action.' does not exist in the controller \"' .$controller. '\"');
     }
-    
- 
   }
 
 
   public function redirect($path) {
-    $callback = $this->routes['get'][$path] ?? false;
-    if(!$callback)  return 'NOT FOUND';
-    //controller
-    $controller =  ucwords($callback[0]); 
-    array_shift($callback);
-
-    //action
-    $action = $callback[0];
-
-    if(method_exists($controller, $action)){
-      return (new $controller($controller, $action))->$action();
-    } else {
-      die('That method '.$action.' does not exist in the controller \"' .$controller. '\"');
-    }
-
+    return $this->resolveHelper($path);
   }
 
   public function url($location) {
-    
     echo '<script type="text/javascript">';
-    echo 'window.location.href = "'.$location.'";';
+    echo 'window.location.pathname = "'.$location.'";';
     echo '<script>';
-    echo '<noscript>';
-    echo '<meta http-equiv="refresh" content="0;url='.$location.'"/>';
-    echo '</noscript>';exit;
+    exit;
   }
 
 }

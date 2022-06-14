@@ -95,7 +95,7 @@ class Model {
   }
 
   public function data() {
-    $data = new stdClass();
+    $data = new \stdClass();
     foreach(H::getObjectProperties($this) as $column => $value) {
       $data->$column = $value;
     }

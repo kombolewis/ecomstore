@@ -5,7 +5,6 @@ declare(strict_types =1);
 namespace Core;
 
 use Core\FH;
-use Core\Router;
 
 class Request {
 

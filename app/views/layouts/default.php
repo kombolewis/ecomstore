@@ -1,6 +1,4 @@
-<?php 
-use Core\Session;
-?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -20,7 +18,6 @@ use Core\Session;
     <?php include 'main_menu.php' ?>
     
     <div class="container">
-      <?=Session::displayMsg(); ?>
       <?= $this->content('body'); ?>  
     </div>
     <script src= <?=PROOT . 'js'. DS . 'custom.js' ?> ></script>

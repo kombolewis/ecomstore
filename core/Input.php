@@ -1,6 +1,6 @@
 <?php
 namespace Core;
-use Core\{FH,Router};
+use Core\FH;
 class Input {
 
   public function isPost(){
@@ -29,7 +29,7 @@ class Input {
   }
 
   public function csrfCheck(){
-    if(!FH::checkToken($this->get('csrf_token'))) Router::redirect('restricted/badToken');
+    if(!FH::checkToken($this->get('csrf_token'))) Application::$app->router->redirect('restricted/badToken');
     return true;
   }
 }
