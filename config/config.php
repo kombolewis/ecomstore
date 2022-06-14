@@ -1,5 +1,5 @@
 <?php
-define('DEBUG', true);
+define('DEBUG', false);
 
 define('DB_NAME', 'heroku_c3509ec72096fef'); //database name
 define('DB_USER', 'b289501efd93ef'); //database user
