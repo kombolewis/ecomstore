@@ -16,11 +16,6 @@
       $this->addColumn($table,'attribute','varchar',['size'=>255]);
       $this->addColumn($table,'value','varchar',['size'=>255]);
       $this->addColumn($table,'product_id','int');
-
-      $constraint = "ALTER TABLE `product_description` ADD CONSTRAINT 
-        `product_description_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
-      ";
-      $this->query($constraint);
     }
   }
   

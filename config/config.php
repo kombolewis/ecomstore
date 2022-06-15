@@ -24,4 +24,3 @@ define('ACCESS_RESTRICTED', 'Restricted'); //controller name for restricted redi
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: X-Requested-With");
 
-// mysql://b289501efd93ef:ecfbbe7a@eu-cdbr-west-02.cleardb.net/heroku_c3509ec72096fef?reconnect=true

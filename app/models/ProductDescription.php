@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Core\Model;
+use Core\Validators\NumericValidator;
+use Core\Validators\RequiredValidator;
 
 
 class ProductDescription extends Model {
@@ -12,6 +14,14 @@ class ProductDescription extends Model {
     parent::__construct('product_description');
   }
 
+
+  public function validator() {
+    $attribute = $this->attribute;
+    $this->runValidation(new RequiredValidator($this,['field' => 'attribute', 'msg' => 'SKU field is required']));
+    $this->runValidation(new RequiredValidator($this,['field' => 'value', 'msg' => "{$attribute} is required"]));
+    $this->runValidation(new NumericValidator($this,['field' => 'value', 'msg' => "{$attribute} Must be a number"]));
+  
+  }
 
 
 }

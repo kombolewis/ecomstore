@@ -22,10 +22,24 @@ class AddProductController extends Controller {
     $product = new Product;
     $this->csrfCheck();
     $product->assign($this->get());
-    if($product->save() && $this->saveDescription()){
-      return $this->jsonResp(['status' => 'success']);
+    if($product->save() && [$status, $descriptionErrors] = $this->saveDescription()){
+      if($status) return $this->jsonResp([
+        'status' => 'success',
+        'errors' => [
+          'product' => $product->getErrorMessages(),
+          'productDescription' => $descriptionErrors
+        ]
+      ]);
+      return $this->jsonResp(['status' => 'fail', 'errors' => [
+        'product' => $product->getErrorMessages(),
+        'productDescription' => $descriptionErrors
+      ]]);
     }
-    return $this->jsonResp(['status' => 'fail']);
+    return $this->jsonResp(['status' => 'fail', 'errors' => [
+      'product' => $product->getErrorMessages(),
+      'productDescription' => []
+    ]]);
+
   }
 
   private function saveDescription() {
@@ -36,7 +50,8 @@ class AddProductController extends Controller {
       $save = $productDescription->save();
       if(!$save) break;
     }
-    return $save;
+
+    return [$save, $productDescription->getErrorMessages()];
   }
 
   private function findFieldsAndData() :array {

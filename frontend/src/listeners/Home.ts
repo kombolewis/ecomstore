@@ -101,7 +101,6 @@ export default class Home {
      return Object.fromEntries([arr])
     })
 
-
     this.validator.validate(data, this.rules())
     .then((obj) => {
       if(obj.validationPassed()) {

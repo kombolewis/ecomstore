@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Core\H;
 use Core\Model;
+use Core\Validators\NumericValidator;
+use Core\Validators\UniqueValidator;
+use Core\Validators\RequiredValidator;
 
 
 class Product extends Model {
@@ -27,6 +30,21 @@ class Product extends Model {
     }
 
     return [$products, $descriptions];
+  }
+
+  public function validator() {
+    $this->runValidation(new RequiredValidator($this,['field' => 'sku', 'msg' => 'SKU field is required']));
+    $this->runValidation(new UniqueValidator($this,['field' => 'sku', 'msg' => 'SKU already exists please choose another']));
+
+
+    $this->runValidation(new RequiredValidator($this,['field' => 'name', 'msg' => 'Last Name is required']));
+
+    $this->runValidation(new RequiredValidator($this,['field' => 'price', 'msg' => 'Last Name is required']));
+    $this->runValidation(new NumericValidator($this,['field' => 'price', 'msg' => 'Price Must be a number']));
+
+    $this->runValidation(new RequiredValidator($this,['field' => 'productType', 'msg' => 'Product Type is required']));
+
+  
   }
 
 
