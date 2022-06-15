@@ -6,29 +6,29 @@
 
 ## Installation
 
-Backend:
+### Backend:
 
-To setup your backend fill the config.example.php script with your database connection credentials and rename to config.php
+  To setup your backend fill the config.example.php script with your database connection credentials and rename to config.php
 
-  mv config.example.php config.php
+    ```mv config.example.php config.php```
 
-Run migrations
+  Run migrations
 
-  php run_migrations.php
+    ```php run_migrations.php```
 
-test on your browser by starting webserver
+  test on your browser by starting webserver
 
-  php -S localhost:<port>
+    ```php -S localhost:<port>```
 
-Frontend:
+### Frontend:
 
-set up by navigation to the frontend folder and installing dependecies
+  set up by navigation to the frontend folder and installing dependecies
 
-  cd frontend && npm install
+    ```cd frontend && npm install```
 
-Make sure to fill the baseURL property in config with backend url in 'frontend/src/config/config.ts'
+  Make sure to fill the baseURL property in config with backend url in 'frontend/src/config/config.ts'
 
-bundle your javascript by running 
+  bundle your javascript by running 
 
-  npm run build
+    ```npm run build```
 
