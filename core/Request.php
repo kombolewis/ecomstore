@@ -45,7 +45,7 @@ class Request {
       }
       return $data;
     }
-    return self::sanitize($_REQUEST[$input]);
+    return $this->sanitize($_REQUEST[$input]);
   }
 
   /**
