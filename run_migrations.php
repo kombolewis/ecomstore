@@ -1,53 +1,49 @@
 <?php
-  use Core\DB;
 
-  define('DS', DIRECTORY_SEPARATOR);
-  define('ROOT', dirname(__FILE__));
+    define('DS', DIRECTORY_SEPARATOR);
+    define('ROOT', dirname(__FILE__));
 
+    // load configuration and helper functions
+    require_once(ROOT . DS . 'config' . DS . 'config.php');
 
-  // load configuration and helper functions
-  require_once(ROOT . DS . 'config' . DS . 'config.php');
+    //Autoload classes 
+    require_once(ROOT . DS . 'core' . DS .'autoload.php');
 
- 
+    $isCli = php_sapi_name() == 'cli';
 
-  //Autoload classes 
-  require_once(ROOT . DS . 'core' . DS .'autoload.php');
+    use Core\DB;
 
+    $db = DB::getInstance();
 
- $isCli = php_sapi_name() == 'cli';
+    $migrationTable = $db->query("SHOW TABLES LIKE 'migrations'")->results();
+    $previousMigs = [];
+    $migrationsRun = [];
 
-
-  $db = DB::getInstance();
-
-  $migrationTable = $db->query("SHOW TABLES LIKE 'migrations'")->results();
-  $previousMigs = [];
-  $migrationsRun = [];
-
-  if(!empty($migrationTable)){
-    $query = $db->query("SELECT migration FROM migrations")->results();
-    foreach($query as $q){
-      $previousMigs[] = $q->migration;
+    if (!empty($migrationTable)) {
+        $query = $db->query("SELECT migration FROM migrations")->results();
+        foreach ($query as $q) {
+            $previousMigs[] = $q->migration;
+        }
     }
-  }
-  // get all files
-  $migrations = glob('migrations'.DS.'*.php');
+        // get all files
+    $migrations = glob('migrations'.DS.'*.php');
 
-  foreach($migrations as $fileName){
-    $klass = str_replace('migrations'.DS,'',$fileName);
-    $klass = str_replace('.php','',$klass);
-    if(!in_array($klass,$previousMigs)){
-      $klassNamespace = 'Migrations\\'.$klass;
-      $mig = new $klassNamespace($isCli);
-      $mig->up();
-      $db->insert('migrations',['migration'=>$klass]);
-      $migrationsRun[] = $klassNamespace;
+    foreach ($migrations as $fileName) {
+        $klass = str_replace('migrations'.DS,'',$fileName);
+        $klass = str_replace('.php','',$klass);
+        if (!in_array($klass,$previousMigs)) {
+            $klassNamespace = 'Migrations\\'.$klass;
+            $mig = new $klassNamespace($isCli);
+            $mig->up();
+            $db->insert('migrations',['migration'=>$klass]);
+            $migrationsRun[] = $klassNamespace;
+        }
     }
-  }
 
-  if(sizeof($migrationsRun) == 0){
-    if($isCli){
-      echo "\e[0;37;42m\n\n"."    No new migrations to run.\n\e[0m\n";
-    } else {
-      echo '<p style="color:#006600;">No new migrations to run.</p>';
+    if (sizeof($migrationsRun) == 0) {
+        if ($isCli) {
+            echo "\e[0;37;42m\n\n"."    No new migrations to run.\n\e[0m\n";
+        } else {
+            echo '<p style="color:#006600;">No new migrations to run.</p>';
+        }
     }
-  }
