@@ -8,7 +8,7 @@ require_once(ROOT . DS . 'core' . DS .'autoload.php');
 
 //load configuration
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+$dotenv->safeLoad();
 
 //load application configuration
 require_once(ROOT . DS . 'config' . DS . 'config.php');
