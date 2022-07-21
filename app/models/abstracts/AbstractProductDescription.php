@@ -29,7 +29,7 @@ abstract class AbstractProductDescription extends Model
             'bind' => [$id]
         ]);
         
-        foreach($items as $item) {
+        foreach ($items as $item) {
             if(!$status  = $item->delete()) break;
         }
         return $status;
@@ -41,7 +41,7 @@ abstract class AbstractProductDescription extends Model
 
         foreach ($records as $record) {
             $this->assign($record);
-            if(!$save = $this->save()) break;
+            if (!$save = $this->save()) break;
         }
     
         return $save;
@@ -53,7 +53,7 @@ abstract class AbstractProductDescription extends Model
         $sorted = [];
   
         foreach ($data as $name => $value) {
-            if(in_array($name,$attributes)) {
+            if (in_array($name,$attributes)) {
                 $items = [];
                 $items['attribute'] = $name;
                 $items['value'] = $value;

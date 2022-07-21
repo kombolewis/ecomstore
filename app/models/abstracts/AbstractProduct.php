@@ -43,7 +43,7 @@ abstract class AbstractProduct extends Model
     {
         $d = new ProductDescription();
 
-        foreach($productIds as $sku => $id) {
+        foreach ($productIds as $sku => $id) {
             $product = $this->findById($id);
             if ($ok = $d->removeProductDescription($id)) {
                 if(!$ok = $product->delete()) break;
