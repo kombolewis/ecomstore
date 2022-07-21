@@ -7,7 +7,6 @@
                     <div class="d-flex justify-content-between">
                         <h3>Product List</h3>
                     <div>
-                        <!-- <a  class="btn btn-primary" href="/add-product">ADD</a> -->
                         <button class="btn btn-primary" onclick="location.href='/add-product'" type="button">ADD</button>
                         <button class="btn btn-danger " id="delete-product-btn">MASS DELETE</button>
                     </div>
