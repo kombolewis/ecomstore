@@ -25,9 +25,13 @@ class ProductListController extends Controller
 
     public function delete()
     {
-        $product = new Product();
-        $product->removeProducts($this->get());
+        if (!empty($ids = $this->get())) {
+            $product = new Product();
+            $product->removeProducts($this->get());
+        }
         $this->redirect('/');
+
+
     }
 
 
