@@ -56,7 +56,7 @@ export default class Validator {
     }
 
     async validate(data, items, element=null) {
-        this.validateHelper(data,items,element)
+        await this.validateHelper(data,items,element)
         this.checkpassed()
         return this
     }

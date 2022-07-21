@@ -31,7 +31,6 @@ class ProductListController extends Controller
         }
         $this->redirect('/');
 
-
     }
 
 
