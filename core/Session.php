@@ -40,10 +40,10 @@ class Session
      * @param string $msg message you want to display in the alert
      * @return void
      */
-    public static function addMsg($type,$msg)
+    public static function addMsg($type, $msg)
     {
         $sessionName = 'alert-' . $type;
-        self::set($sessionName,$msg);
+        self::set($sessionName, $msg);
     } 
 
     public static function displayMsg()

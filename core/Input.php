@@ -31,7 +31,7 @@ class Input
     {
         if (!$input) {
             $data = [];
-            foreach($_REQUEST as $field => $value) {
+            foreach ($_REQUEST as $field => $value) {
                 $data[$field] = $value;
             }
             return $data;
@@ -41,7 +41,7 @@ class Input
 
     public function csrfCheck()
     {
-        if(!FH::checkToken($this->get('csrf_token'))) Application::$app->router->redirect('restricted/badToken');
+        if (!FH::checkToken($this->get('csrf_token'))) Application::$app->router->redirect('restricted/badToken');
         return true;
     }
 }

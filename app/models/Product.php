@@ -6,9 +6,7 @@ use App\Models\Abstracts\AbstractProduct;
 
 class Product extends AbstractProduct
 {
-
     public const table = 'product';
-
 
     public function __construct() 
     {

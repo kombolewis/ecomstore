@@ -67,13 +67,13 @@ abstract class Migration
      */
     public function addColumn($table, $name, $type, $attrs=[])
     {
-        $formattedType = call_user_func([$this,$this->_columnTypesMap[$type]],$attrs);
-        $definition = array_key_exists('definition',$attrs) ? $attrs['definition']." " : "";
+        $formattedType = call_user_func([$this, $this->_columnTypesMap[$type]], $attrs);
+        $definition = array_key_exists('definition', $attrs) ? $attrs['definition']." " : "";
         $order = $this->_orderingColumn($attrs);
         $sql = "ALTER TABLE {$table} ADD COLUMN {$name} {$formattedType} {$definition}{$order};";
         $msg = "Adding Column " . $name . " To ". $table;
         $resp = !$this->_db->query($sql)->error();
-        $this->_printColor($resp,$msg);
+        $this->_printColor($resp, $msg);
         return $resp;
     }
 
@@ -89,7 +89,7 @@ abstract class Migration
         $sql = "ALTER TABLE {$table} DROP COLUMN {$name};";
         $msg = "Dropping Column " . $name . " From ". $table;
         $resp = !$this->_db->query($sql)->error();
-        $this->_printColor($resp,$msg);
+        $this->_printColor($resp, $msg);
         return $resp;
     }
 
@@ -104,13 +104,13 @@ abstract class Migration
      */
     public function changeColumn($table, $name, $type, $attrs=[])
     {
-        $formattedType = call_user_func([$this,$this->_columnTypesMap[$type]],$attrs);
-        $definition = array_key_exists('definition',$attrs) ? $attrs['definition']." " : "";
+        $formattedType = call_user_func([$this, $this->_columnTypesMap[$type]], $attrs);
+        $definition = array_key_exists('definition', $attrs) ? $attrs['definition']." " : "";
         $order = $this->_orderingColumn($attrs);
         $sql = "ALTER TABLE {$table} MODIFY COLUMN {$name} {$formattedType} {$definition}{$order};";
         $msg = "Changing Column " . $name . " To ". $table;
         $resp = !$this->_db->query($sql)->error();
-        $this->_printColor($resp,$msg);
+        $this->_printColor($resp, $msg);
         return $resp;
     }
 
@@ -122,8 +122,8 @@ abstract class Migration
      */
     public function addTimeStamps($table)
     {
-        $c = $this->addColumn($table,'created_at','datetime',['after'=>'id']);
-        $u = $this->addColumn($table,'updated_at','datetime',['after'=>'created_at']);
+        $c = $this->addColumn($table, 'created_at', 'datetime', ['after'=>'id']);
+        $u = $this->addColumn($table, 'updated_at', 'datetime', ['after'=>'created_at']);
         return $c && $u;
     }
 
@@ -136,11 +136,11 @@ abstract class Migration
      */
     public function addIndex($table,$name,$columns=false)
     {
-        $columns = (!$columns)? $name : $columns;
+        $columns = (!$columns) ? $name : $columns;
         $sql = "ALTER TABLE {$table} ADD INDEX {$name} ({$columns})";
         $msg = "Adding Index " . $name . " To ". $table;
         $resp = !$this->_db->query($sql)->error();
-        $this->_printColor($resp,$msg);
+        $this->_printColor($resp, $msg);
         return $resp;
     }
 
@@ -156,7 +156,7 @@ abstract class Migration
         $sql = "DROP INDEX {$name} ON {$table}";
         $msg = "Dropping Index " . $name . " From ". $table;
         $resp = !$this->_db->query($sql)->error();
-        $this->_printColor($resp,$msg);
+        $this->_printColor($resp, $msg);
         return $resp;
     }
 
@@ -167,7 +167,7 @@ abstract class Migration
      */
     public function addSoftDelete($table)
     {
-        $this->addColumn($table,'deleted','tinyint');
+        $this->addColumn($table, 'deleted', 'tinyint');
         $this->addIndex($table, 'deleted');
     }
 
@@ -181,7 +181,7 @@ abstract class Migration
     {
         $msg = "Running Query: \"" . $sql ."\"";
         $resp = !$this->_db->query($sql)->error();
-        $this->_printColor($resp,$msg);
+        $this->_printColor($resp, $msg);
         return $resp;
     }
 
@@ -277,9 +277,9 @@ abstract class Migration
 
     protected function _parsePrecisionScale($attrs)
     {
-        $precision = (array_key_exists('precision',$attrs)) ? $attrs['precision'] : null;
-        $precision = (!$precision && array_key_exists('size',$attrs)) ? $attrs['size'] : $precision;
-        $scale = (array_key_exists('scale',$attrs)) ? $attrs['scale'] : null;
+        $precision = (array_key_exists('precision', $attrs)) ? $attrs['precision'] : null;
+        $precision = (!$precision && array_key_exists('size', $attrs)) ? $attrs['size'] : $precision;
+        $scale = (array_key_exists('scale', $attrs)) ? $attrs['scale'] : null;
         $params = ($precision) ? "(" . $precision : "";
         $params .= ($precision && $scale) ? ", " .$scale : "";
         $params .= ($precision) ? ")" : "";
@@ -288,9 +288,9 @@ abstract class Migration
 
     protected function _orderingColumn($attrs)
     {
-        if (array_key_exists('after',$attrs)) {
+        if (array_key_exists('after', $attrs)) {
             return "AFTER " . $attrs['after'];
-        } elseif (array_key_exists('before',$attrs)) {
+        } elseif (array_key_exists('before', $attrs)) {
             return "BEFORE " . $attrs['before'];
         } else {
             return "";

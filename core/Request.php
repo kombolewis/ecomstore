@@ -66,7 +66,7 @@ class Request
     }
     public function csrfCheck()
     {
-        if(!FH::checkToken($this->get('csrf_token'))) Application::$app->router->redirect('restricted/badToken');
+        if (!FH::checkToken($this->get('csrf_token'))) Application::$app->router->redirect('restricted/badToken');
         return true;
     }
 

@@ -42,7 +42,7 @@ class Model
   public function find($params = [])
   {
     $params = $this->_softDeleteParams($params);
-    $resultsQuery = $this->_db->find($this->_table, $params,get_class($this));
+    $resultsQuery = $this->_db->find($this->_table, $params, get_class($this));
     if(!$resultsQuery) return [];
     return $resultsQuery;
   }
@@ -82,21 +82,21 @@ class Model
 
   public function insert($fields)
   {
-    if(empty($fields)) return false;
+    if (empty($fields)) return false;
     return $this->_db->insert($this->_table, $fields);
   }
 
 
   public function update($id, $fields)
   {
-    if(empty($fields) || $id == '') return false;
+    if (empty($fields) || $id == '') return false;
     return $this->_db->update($this->_table, $id, $fields); 
   }
 
 
   public function delete($id = '')
   {
-    if($id == '' && $this->id == '') return false;
+    if ($id == '' && $this->id == '') return false;
     $id = ($id == '') ? $this->id : $id;
     if ($this->_softDelete) {
         return $this->update($id, ['deleted' => 1]);
@@ -114,7 +114,7 @@ class Model
   public function data()
   {
     $data = new stdClass();
-    foreach($this->fields() as $column => $value) {
+    foreach ($this->fields() as $column => $value) {
         $data->$column = $value;
     }
     return $data;
