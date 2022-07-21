@@ -8,7 +8,8 @@ class ProductDescription extends AbstractProductDescription
 {
     public const table = 'product_description';
     
-    public function __construct() {
+    public function __construct() 
+    {
         parent::__construct(self::table);
     }
 
