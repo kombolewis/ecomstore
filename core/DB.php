@@ -113,7 +113,7 @@ class DB
         return false;
     }
 
-    protected function _read($table, $params=[], $class)
+    protected function _read($table, $params, $class)
     {
         $conditionString = '';
         $bind = [];
@@ -169,7 +169,7 @@ class DB
         return false;
     }
 
-    public function findFirst($table, $params,$class=false)
+    public function findFirst($table, $params, $class=false)
     {
         if ($this->_read($table, $params, $class)) {
             return $this->first();
