@@ -5,12 +5,17 @@
     define('DS', DIRECTORY_SEPARATOR);
     define('ROOT', dirname(__FILE__));
 
-    // load configuration and helper functions
-    require_once(ROOT . DS . 'config' . DS . 'config.php');
-
     //Autoload classes 
     require_once(ROOT . DS . 'core' . DS .'autoload.php');
 
+
+    //load configuration
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->safeLoad();
+
+    // load configuration and helper functions
+    require_once(ROOT . DS . 'config' . DS . 'config.php');
+    
     use Seed\Seeder;
     
     $flags = getopt("r:");
