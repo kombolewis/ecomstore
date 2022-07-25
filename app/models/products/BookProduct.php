@@ -17,12 +17,6 @@ class BookProduct extends AbstractProduct
         parent::__construct();
     }
 
-    public function store(array $item): bool
-    {
-        $this->assign($item);
-        return $this->save();
-    }
-
     public static function all(): array
     {
         $product = new BookProduct();

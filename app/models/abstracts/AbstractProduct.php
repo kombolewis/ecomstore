@@ -50,7 +50,10 @@ abstract class AbstractProduct extends Model
         return $ok;
     }
 
+    public function store(array $item): bool
+    {
+        $this->assign($item);
+        return $this->save();
+    }
     abstract public static function all(): array ;
-
-    abstract public function store(array $item): bool ;
 }
