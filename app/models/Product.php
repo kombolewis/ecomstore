@@ -10,7 +10,7 @@ class Product
 {
     private $product;
 
-    public function __construct(string $type = '')
+    public function __construct(string $type)
     {
         $class = 'App\Models\Products\\' . ucwords(strtolower($type)) . 'Product';
         $this->product = new $class();
