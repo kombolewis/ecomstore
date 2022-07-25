@@ -1,6 +1,6 @@
 <?php
 
-use Core\FH; 
+use Core\FH;
 
 ?>
 
@@ -24,36 +24,36 @@ use Core\FH;
             <div class="card-body" >
                 <form class="form" id="product_form" >
                     <?= FH::csrfInput(); ?>
-                    <?= FH::inputBlock('text','SKU','sku','',['class' => 'form-control input-sm', 'change' => 'handleEvent'],['class' => 'form-group']); ?>
-                    <?= FH::inputBlock('text','Name','name','',['class' => 'form-control input-sm',  'change' => 'handleEvent'],['class' => 'form-group']); ?>
-                    <?= FH::inputBlock('text','Price ($)','price','',['class' => 'form-control input-sm',  'input' => 'handleEvent'],['class' => 'form-group']); ?>
+                    <?= FH::inputBlock('text', 'SKU', 'sku', '', ['class' => 'form-control input-sm', 'change' => 'handleEvent'], ['class' => 'form-group']); ?>
+                    <?= FH::inputBlock('text', 'Name', 'name', '', ['class' => 'form-control input-sm',  'change' => 'handleEvent'], ['class' => 'form-group']); ?>
+                    <?= FH::inputBlock('text', 'Price ($)', 'price', '', ['class' => 'form-control input-sm',  'input' => 'handleEvent'], ['class' => 'form-group']); ?>
                     <div x-data="{propertyType:''}" >
                         <div class="form-group">
                             <label for="productType">Type Switcher</label>
                             <select class="form-control input-sm" id="productType" name="productType"  x-model="propertyType">
                                 <option></option>
-                                <option id="DVD" value="DVDs">DVD</option>
+                                <option id="DVD" value="DVD">DVD</option>
                                 <option id="Furniture" value="Furniture">Furniture</option>
-                                <option id="Book" value="Books">Book</option>
+                                <option id="Book" value="Book">Book</option>
                             </select>
                         </div>
-                        <template x-if="propertyType == 'DVDs'">
+                        <template x-if="propertyType == 'DVD'">
                             <div>
-                                <?= FH::inputBlock('text','Size (MB)','size','',['class' => 'form-control input-sm', 'input' => 'handleEvent'],['class' => 'form-group']); ?>
+                                <?= FH::inputBlock('text', 'Size (MB)', 'size', '', ['class' => 'form-control input-sm', 'input' => 'handleEvent'], ['class' => 'form-group']); ?>
                                 <span>Please, provide size</span>
                             </div>
                         </template>
                         <template x-if="propertyType == 'Furniture'">
                             <div>
-                                <?= FH::inputBlock('text','Height (CM)','height','',['class' => 'form-control input-sm', 'input' => 'handleEvent'],['class' => 'form-group']); ?>
-                                <?= FH::inputBlock('text','Width (CM)','width','',['class' => 'form-control input-sm','input' => 'handleEvent'],['class' => 'form-group']); ?>
-                                <?= FH::inputBlock('text','Length (CM)','length','',['class' => 'form-control input-sm', 'input' => 'handleEvent'],['class' => 'form-group']); ?>
+                                <?= FH::inputBlock('text', 'Height (CM)', 'height', '', ['class' => 'form-control input-sm', 'input' => 'handleEvent'], ['class' => 'form-group']); ?>
+                                <?= FH::inputBlock('text', 'Width (CM)', 'width', '', ['class' => 'form-control input-sm','input' => 'handleEvent'], ['class' => 'form-group']); ?>
+                                <?= FH::inputBlock('text', 'Length (CM)', 'length', '', ['class' => 'form-control input-sm', 'input' => 'handleEvent'], ['class' => 'form-group']); ?>
                                 <span>Please, provide dimensions</span>
                             </div>
                         </template>
-                        <template x-if="propertyType == 'Books'">
+                        <template x-if="propertyType == 'Book'">
                             <div>
-                                <?= FH::inputBlock('text','Weight (KG)','weight','',['class' => 'form-control input-sm','input' => 'handleEvent'],['class' => 'form-group']); ?>
+                                <?= FH::inputBlock('text', 'Weight (KG)', 'weight', '', ['class' => 'form-control input-sm','input' => 'handleEvent'], ['class' => 'form-group']); ?>
                                 <span>Please, provide Weight</span>
                             </div>
                         </template>

@@ -2,7 +2,7 @@
 
 namespace Core;
 
-class View 
+class View
 {
     protected $_head;
     protected $_body;
@@ -25,7 +25,7 @@ class View
         return false;
     }
 
-    public function start($type) 
+    public function start($type)
     {
         $this->_outputBuffer = $type;
         ob_start();
@@ -37,7 +37,7 @@ class View
             $this->_head = ob_get_clean();
         } elseif ($this->_outputBuffer == 'body') {
             $this->_body = ob_get_clean();
-        } else{
+        } else {
             die('You must first run start method');
         }
     }
@@ -55,7 +55,6 @@ class View
     public function setLayout($path)
     {
         $this->_layout = $path;
-
     }
 
     public function renderPartial($viewName, $params = [])
@@ -66,7 +65,7 @@ class View
     public function renderHelper($viewName, $params, $partial=false)
     {
         if ($params) {
-            foreach ($params as $key => $value){
+            foreach ($params as $key => $value) {
                 $$key = $value;
             }
         }
@@ -74,7 +73,7 @@ class View
         $viewString = implode(DS, $viewAry);
         if (file_exists(ROOT . DS . 'app' . DS . 'views' . DS . $viewString . '.php')) {
             include(ROOT . DS . 'app' . DS . 'views' . DS . $viewString . '.php');
-            if(!$partial) {
+            if (!$partial) {
                 include(ROOT . DS . 'app' . DS . 'views' . DS . 'layouts' . DS . $this->_layout . '.php');
             }
         } else {

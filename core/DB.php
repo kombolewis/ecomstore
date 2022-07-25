@@ -7,7 +7,6 @@ use PDOException;
 
 class DB
 {
-
     private $_pdo;
     private $_query;
     private $_result;
@@ -23,7 +22,7 @@ class DB
             $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
             $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->_pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             die($e->getMessage());
         }
     }
@@ -50,7 +49,7 @@ class DB
 
             if ($this->_query->execute()) {
                 if ($class) {
-                    $this->_result = $this->_query->fetchALL(PDO::FETCH_CLASS,$class);
+                    $this->_result = $this->_query->fetchALL(PDO::FETCH_CLASS, $class);
                 } else {
                     $this->_result = $this->_query->fetchALL(PDO::FETCH_OBJ);
                 }
@@ -72,7 +71,7 @@ class DB
         foreach ($fields as $field => $value) {
             $fieldString .= '`' . $field . '`,';
             $valueString .= '?,';
-            $values[] = $value; 
+            $values[] = $value;
         }
 
         $fieldString = rtrim($fieldString, ',');
@@ -103,7 +102,7 @@ class DB
         }
         return false;
     }
-    
+
     public function delete($table, $id)
     {
         $sql = "DELETE FROM {$table} where id = {$id}";
@@ -122,7 +121,6 @@ class DB
 
         //condition
         if (isset($params['conditions'])) {
-
             if (is_array($params['conditions'])) {
                 foreach ($params['conditions'] as $condition) {
                     $conditionString .= ' ' . $condition . ' AND';
@@ -155,7 +153,9 @@ class DB
         $sql = "SELECT * FROM {$table}{$conditionString}{$order}{$limit}";
 
         if ($this->query($sql, $bind, $class)) {
-            if (!count($this->_result)) return false;
+            if (!count($this->_result)) {
+                return false;
+            }
             return true;
         }
         return false;
@@ -175,7 +175,6 @@ class DB
             return $this->first();
         }
         return false;
-
     }
 
     public function results()

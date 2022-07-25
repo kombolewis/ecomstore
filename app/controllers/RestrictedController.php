@@ -20,5 +20,4 @@ class RestrictedController extends Controller
     {
         $this->render('restricted/badToken');
     }
-
 }

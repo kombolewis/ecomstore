@@ -11,8 +11,7 @@ class AddProductController extends Controller
     {
         parent::__construct($controller, $action);
         $this->view->setLayout('default');
-
-    } 
+    }
     public function create()
     {
         $this->render('add-product/create');
@@ -20,16 +19,13 @@ class AddProductController extends Controller
 
     public function store()
     {
-        $product = new Product;
+        $product = new Product($this->get('productType'));
         $this->csrfCheck();
-        $status = $product->store($this->get());
+        $status = $product->save($this->get());
         $message = ($status) ? 'success' : 'fail';
         return $this->jsonResp([
             'status' => $message,
-            'errors' => [
-                'product' => $product->getErrorMessages(),
-                'productDescription' => $product->getDescriptionErrors(),
-            ]
+            'errors' => $product->getErrors()
         ]);
     }
 }

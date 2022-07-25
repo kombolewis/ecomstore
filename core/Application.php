@@ -4,7 +4,6 @@ namespace Core;
 
 use Core\{Router,Request};
 
-
 class Application
 {
     public static $app;
@@ -23,7 +22,7 @@ class Application
      *
      * @var [type]
      */
-    public  $view;
+    public $view;
 
     /**
      * main class constructor
@@ -42,10 +41,9 @@ class Application
      *
      * @return void
      */
-    public function run() {
-
+    public function run()
+    {
         echo $this->router->resolve();
-
     }
 
     private function make()

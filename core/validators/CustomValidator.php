@@ -2,6 +2,7 @@
 
 namespace Core\Validators;
 
+use Core\H;
 use \Exception;
 
 abstract class CustomValidator
@@ -19,23 +20,23 @@ abstract class CustomValidator
     public function __construct($model, $param)
     {
         $this->_model = $model;
-        if (!array_key_exists('field',$param)) {
+        if (!array_key_exists('field', $param)) {
             throw new Exception("You must add a field to the params array");
         } else {
             $this->field = (is_array($param['field'])) ? $param['field'][0] : $param['field'];
         }
 
-        if (!property_exists($model,$this->field)) {
+        if (!property_exists($model, $this->field)) {
             throw new Exception("The field must exist in the model");
         }
 
-        if (!array_key_exists('msg',$param)) {
+        if (!array_key_exists('msg', $param)) {
             throw new Exception("Must add a msg to params array");
         } else {
             $this->msg = $param['msg'];
         }
 
-        if (array_key_exists('rule',$param)) {
+        if (array_key_exists('rule', $param)) {
             $this->rule = $param['rule'];
         }
 
@@ -48,4 +49,3 @@ abstract class CustomValidator
 
     abstract public function runValidation();
 }
-

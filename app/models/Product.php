@@ -2,25 +2,39 @@
 
 namespace App\Models;
 
-use App\Models\Abstracts\AbstractProduct;
+use App\Models\Products\BookProduct;
+use App\Models\Products\DvdProduct;
+use App\Models\Products\FurnitureProduct;
 
-class Product extends AbstractProduct
+class Product
 {
-    public const table = 'product';
+    private $product;
 
-    public function __construct() 
+    public function __construct(string $type = '')
     {
-        parent::__construct(self::table);
+        $class = 'App\Models\Products\\' . ucwords(strtolower($type)) . 'Product';
+        $this->product = new $class();
     }
 
-    public function store(array $item)
+    public function save(array $item): bool
     {
-        return $this->saveProduct($item);
+        return $this->product->store($item);
     }
 
-    public function removeProducts(array $ids)
+    public function delete(array $ids): bool
     {
-        return $this->remove($ids);
+        return $this->product->remove($ids);
     }
 
+    public static function findAll(): array
+    {
+        return array_merge(BookProduct::all(), DvdProduct::all(), FurnitureProduct::all());
+    }
+
+    public function getErrors(): array
+    {
+        return [
+            'product' => $this->product->getErrorMessages(),
+        ];
+    }
 }

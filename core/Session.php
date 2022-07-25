@@ -4,10 +4,9 @@ namespace Core;
 
 class Session
 {
-
     public static function exists($name)
     {
-        return (isset($_SESSION[$name])) ? true :false;
+        return (isset($_SESSION[$name])) ? true : false;
     }
 
     public static function get($name)
@@ -44,7 +43,7 @@ class Session
     {
         $sessionName = 'alert-' . $type;
         self::set($sessionName, $msg);
-    } 
+    }
 
     public static function displayMsg()
     {
@@ -61,5 +60,4 @@ class Session
         }
         return $html;
     }
-
 }

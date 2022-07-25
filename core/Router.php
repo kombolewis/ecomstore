@@ -12,7 +12,7 @@ class Router
     /**
      * @var Request
      */
-    public  Request $request;
+    public Request $request;
 
     /**
      * main class constructor
@@ -32,7 +32,7 @@ class Router
      * @param array $callback
      * @return void
      */
-    public function get(string $path,  array $callback) :void
+    public function get(string $path, array $callback): void
     {
         $this->routes['get'][$path] = $callback;
     }
@@ -44,7 +44,7 @@ class Router
      * @param array $callback
      * @return void
      */
-    public function post(string $path,  array $callback) :void
+    public function post(string $path, array $callback): void
     {
         $this->routes['post'][$path] = $callback;
     }
@@ -64,14 +64,16 @@ class Router
     private function resolveHelper($path, $method='get')
     {
         $callback = $this->routes[$method][$path] ?? false;
-        if (!$callback)  return 'NOT FOUND';
+        if (!$callback) {
+            return 'NOT FOUND';
+        }
         //controller
-        $controller =  ucwords($callback[0]); 
+        $controller =  ucwords($callback[0]);
         array_shift($callback);
         //action
         $action = $callback[0];
 
-        if (method_exists($controller, $action)){
+        if (method_exists($controller, $action)) {
             return (new $controller($controller, $action))->$action();
         } else {
             die('That method '.$action.' does not exist in the controller \"' .$controller. '\"');
@@ -79,11 +81,13 @@ class Router
     }
 
 
-    public function redirect($path) {
+    public function redirect($path)
+    {
         return $this->resolveHelper($path);
     }
 
-    public function url($location) {
+    public function url($location)
+    {
         echo '<script type="text/javascript">';
         echo 'window.location.pathname = "'.$location.'";';
         echo '<script>';

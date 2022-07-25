@@ -3,22 +3,17 @@
 namespace Seed;
 
 use Seed\Abstracts\AbstractSeeder;
-use Seed\ProductTableSeeder;
-use Seed\ProductDescriptionSeeder;
+use Seed\Traits\SeederTrait;
 
-class Seeder extends AbstractSeeder
+class Seeder
 {
+    use SeederTrait;
 
-    public function truncate()
-    {
-        return $this->truncateTables();
-    }
     public function seed()
     {
-        $s = new ProductTableSeeder();
-        $s->seedColumns();
-        $d = new ProductDescriptionSeeder();
-        $d->seedColumns();
+        $type = $this->generateRandomProductType();
+        $seeder = 'Seed\Categories\\' . ucwords(strtolower($type)) . 'Seeder';
+        $s = new $seeder($type);
+        $s->seed();
     }
-
 }

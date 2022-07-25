@@ -16,15 +16,15 @@ class FH
         $html .= '</div>';
         return $html;
     }
-    
+
     public static function submitTag($buttonText, $inputAttrs=[])
     {
         $inputString = self::stringifyAttrs($inputAttrs);
         $html = '<input type="submit" value="'.$buttonText.'"'.$inputString.' />';
         return $html;
     }
-    
-    
+
+
     public static function submitBlock($buttonText, $inputAttrs=[], $divAttrs=[])
     {
         $divString = self::stringifyAttrs($divAttrs);
@@ -33,14 +33,13 @@ class FH
         $html .= '<input type="submit" value="'.$buttonText.'"'.$inputString.' />';
         $html .= '</div>';
         return $html;
-    
     }
-    
+
     public static function stringifyAttrs($attrs)
     {
         $string = '';
         foreach ($attrs as $key => $val) {
-            $string .= ' ' . $key . ' ="' . $val . '"'; 
+            $string .= ' ' . $key . ' ="' . $val . '"';
         }
         return $string;
     }
@@ -48,7 +47,7 @@ class FH
     public static function generateToken()
     {
         $token = base64_encode(openssl_random_pseudo_bytes(32));
-        Session::set('csrf_token',$token);
+        Session::set('csrf_token', $token);
         return $token;
     }
 
@@ -72,27 +71,27 @@ class FH
         $html .= '</div>';
         return $html;
     }
-    
+
     public static function sanitize($dirty)
     {
         return htmlentities($dirty, ENT_QUOTES, 'UTF-8');
     }
-    
+
     public static function posted_values($post)
     {
         $clean_ary = [];
-    
+
         foreach ($post as $key => $value) {
             $clean_ary[$key] = self::sanitize($value);
         }
-    
+
         return $clean_ary;
     }
 
     public static function displayErrors($errors)
     {
         $html = '<div class="bg-danger"><ul>';
-        foreach($errors as $field => $error) {
+        foreach ($errors as $field => $error) {
             $html .= '<li>'.$error.'</li>';
             $html .= '<script>jQuery("document").ready(function(){jQuery("#'.$field.'").parent().closest("div").addClass("is-invalid");});</script>';
         }
