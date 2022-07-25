@@ -17,11 +17,10 @@
             <div class="row mt-3">
                 <?php foreach ($products as $product): ?>
                     <div class="col-md-3 mt-2 mb-2">
-                        <?php $this->renderPartial('product-list/card',[
-                            'product' => $product, 
-                            'closure' => $closure
-                            ]); 
-                        ?>
+                        <?php $this->renderPartial('product-list/card', [
+                            'product' => $product,
+                            ]);
+                    ?>
                     </div>
                 <?php endforeach; ?>
             </div>

@@ -1,14 +1,16 @@
-<?php 
+<?php
 
 namespace Core;
 
 class Controller
 {
-    protected $_controller, $_action;
+    protected $_controller;
+    protected $_action;
     public $view;
     private $app;
 
-    public function __construct($controller, $action){
+    public function __construct($controller, $action)
+    {
         $this->_controller = $controller;
         $this->_action = $action;
         $this->view = new View();
@@ -31,7 +33,7 @@ class Controller
         exit;
     }
 
-    public  function render($view, $params=[])
+    public function render($view, $params=[])
     {
         $this->view->render($view, $params);
     }

@@ -6,7 +6,8 @@ use Core\DB;
 
 abstract class Migration
 {
-    protected $_db, $_isCli;
+    protected $_db;
+    protected $_isCli;
 
     protected $_columnTypesMap = [
         'int' => '_intColumn', 'integer' => '_intColumn', 'tinyint' => '_tinyintColumn', 'smallint' => '_smallintColumn',
@@ -22,7 +23,7 @@ abstract class Migration
         $this->_isCli = $isCli;
     }
 
-    abstract function up();
+    abstract public function up();
 
     /**
      * Creates a table in the database
@@ -37,7 +38,7 @@ abstract class Migration
         PRIMARY KEY (id)
         )  ENGINE=INNODB;";
         $res = !$this->_db->query($sql)->error();
-        $this->_printColor($res,"Creating Table " . $table);
+        $this->_printColor($res, "Creating Table " . $table);
         return $res;
     }
 
@@ -52,7 +53,7 @@ abstract class Migration
         $sql = "DROP TABLE IF EXISTS {$table}";
         $msg =  "Dropping Table " . $table;
         $resp = !$this->_db->query($sql)->error();
-        $this->_printColor($resp,$msg);
+        $this->_printColor($resp, $msg);
         return $resp;
     }
 
@@ -134,7 +135,7 @@ abstract class Migration
      * @param  string   $name  name of column to add index
      * @return boolean
      */
-    public function addIndex($table,$name,$columns=false)
+    public function addIndex($table, $name, $columns=false)
     {
         $columns = (!$columns) ? $name : $columns;
         $sql = "ALTER TABLE {$table} ADD INDEX {$name} ({$columns})";
@@ -299,14 +300,14 @@ abstract class Migration
 
     protected function _printColor($res, $msg)
     {
-        $title = ($res)? "SUCCESS: " : "FAIL: ";
+        $title = ($res) ? "SUCCESS: " : "FAIL: ";
 
         if ($this->_isCli) {
-            $for = ($res)? "\e[0;37;" : "\e[0;37;";
-            $back = ($res)? "42m" : "41m";
+            $for = ($res) ? "\e[0;37;" : "\e[0;37;";
+            $back = ($res) ? "42m" : "41m";
             echo $for.$back."\n\n"."    ".$title.$msg."\n\e[0m\n";
         } else {
-            $color = ($res)? "#006600" : "#CC0000";
+            $color = ($res) ? "#006600" : "#CC0000";
             echo '<p style="color:'.$color.'">'.$title.$msg.'</p>';
         }
     }

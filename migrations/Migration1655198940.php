@@ -1,5 +1,7 @@
 <?php
+
 namespace Migrations;
+
 use Core\Migration;
 
 class Migration1655198940 extends Migration
@@ -8,8 +10,7 @@ class Migration1655198940 extends Migration
     {
         $table = "migrations";
         $this->createTable($table);
-        $this->addColumn($table, 'migration', 'varchar',['size'=>35]);
-        $this->addIndex($table,'migration');
+        $this->addColumn($table, 'migration', 'varchar', ['size'=>35]);
+        $this->addIndex($table, 'migration');
     }
 }
-  

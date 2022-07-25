@@ -6,7 +6,6 @@ use Core\FH;
 
 class Input
 {
-
     public function isPost()
     {
         return $this->getRequestMethod() === 'POST';
@@ -41,7 +40,9 @@ class Input
 
     public function csrfCheck()
     {
-        if (!FH::checkToken($this->get('csrf_token'))) Application::$app->router->redirect('restricted/badToken');
+        if (!FH::checkToken($this->get('csrf_token'))) {
+            Application::$app->router->redirect('restricted/badToken');
+        }
         return true;
     }
 }

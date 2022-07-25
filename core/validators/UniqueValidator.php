@@ -2,6 +2,7 @@
 
 namespace Core\Validators;
 
+use Core\H;
 use Core\Validators\CustomValidator;
 
 class UniqueValidator extends CustomValidator
@@ -23,15 +24,15 @@ class UniqueValidator extends CustomValidator
 
         if (is_array($this->field)) {
             array_unshift($this->field);
-            foreach($this->field as $adds) {
+            foreach ($this->field as $adds) {
                 $conditions[] = "{$adds} = ?";
                 $bind[] = $this->_model->{$adds};
             }
         }
 
         $queryParams = ['conditions' => $conditions, 'bind' => $bind];
+        // H::dnd($this->_model);
         $other = $this->_model->findFirst($queryParams);
         return (!$other);
     }
 }
-
